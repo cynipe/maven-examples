@@ -1,4 +1,4 @@
-package net.cynipe.example.maven.appassembler;
+package net.cynipe.maven.example.appassembler;
 
 import java.io.IOException;
 import java.io.InputStream;

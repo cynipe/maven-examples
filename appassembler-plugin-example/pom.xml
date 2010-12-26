@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.cynipe.example</groupId>
-  <artifactId>maven-appassembler-example</artifactId>
+  <groupId>net.cynipe.maven</groupId>
+  <artifactId>appassembler-example</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Maven Appassembler Plugin Usage Example</name>
   <properties>
@@ -101,7 +101,7 @@
           <!-- 起動対象クラスの指定 -->
           <programs>
             <program>
-              <mainClass>net.cynipe.example.maven.appassembler.Main</mainClass>
+              <mainClass>net.cynipe.maven.example.appassembler.Main</mainClass>
               <!-- 生成されるスクリプト名 -->
               <name>run-example</name>
             </program>
