@@ -17,9 +17,9 @@ import com.google.inject.Guice;
 
 import cuke4duke.StepMother;
 import cuke4duke.Steps;
-import cuke4duke.annotation.I18n.JA.ならば;
-import cuke4duke.annotation.I18n.JA.もし;
-import cuke4duke.annotation.I18n.JA.前提;
+import cuke4duke.annotation.I18n.EN.Given;
+import cuke4duke.annotation.I18n.EN.Then;
+import cuke4duke.annotation.I18n.EN.When;
 
 public class GreetingSteps extends Steps {
 
@@ -30,14 +30,14 @@ public class GreetingSteps extends Steps {
         super(stepMother);
     }
 
-    @前提("^挨拶する相手が(.+)の場合$")
+    @Given("^挨拶する相手が(.+)の場合$")
     public void 挨拶する相手が(String personKind) {
         final PersonKind kind = StringToPersonKind.convert(personKind);
         assertThat("指定出来るタイプではありません", kind, is(not(nullValue())));
         this.personKind = kind;
     }
 
-    @もし("^(.+)の挨拶を返す$")
+    @When("^(.+)の挨拶を返す$")
     public void 挨拶を返す(String type) {
         final AbstractModule module = StringToModule.convert(type);
         assertThat("指定できるタイプではありません", module, is(not(nullValue())));
@@ -45,7 +45,7 @@ public class GreetingSteps extends Steps {
         actual = greetingService.greetingFor(personKind);
     }
 
-    @ならば("^挨拶は「(.+)」が返される$")
+    @Then("^挨拶は「(.+)」が返される$")
     public void 挨拶は(String expected) {
         assertThat(actual, is(expected));
     }
