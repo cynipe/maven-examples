@@ -8,7 +8,28 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.6</java.version>
+    <cuke4duke.version>0.4.2</cuke4duke.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>codehaus</id>
+      <url>http://repository.codehaus.org</url>
+    </repository>
+    <!--
+      このリポジトリから取ってこれるはずらしいのだけど、403で取得できない。
+      https://github.com/aslakhellesoy/cuke4duke から取得して自分でビルドした。
+    -->
+    <repository>
+      <id>cukes</id>
+      <url>http://cukes.info/maven</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>cukes</id>
+      <url>http://cukes.info/maven</url>
+    </pluginRepository>
+  </pluginRepositories>
   <build>
     <!-- 共通に利用する設定とpluginのバージョンの指定 -->
     <pluginManagement>
@@ -61,6 +82,11 @@
             </classpathContainers>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>cuke4duke</groupId>
+          <artifactId>cuke4duke-maven-plugin</artifactId>
+          <version>${cuke4duke.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -80,6 +106,42 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>cuke4duke</groupId>
+        <artifactId>cuke4duke-maven-plugin</artifactId>
+        <configuration>
+          <jvmArgs>
+            <jvmArg>-Xmx384m</jvmArg>
+            <!-- Guiceの設定
+              Steps内でInjectする場合にいるっぽい
+              <jvmArg>-Dcuke4duke.objectFactory=cuke4duke.internal.jvmclass.GuiceFactory</jvmArg>
+            -->
+            <jvmArg>-Dfile.encoding=UTF-8</jvmArg>
+          </jvmArgs>
+          <cucumberArgs>
+            <cucumberArg>--color</cucumberArg>
+            <cucumberArg>--require</cucumberArg>
+            <cucumberArg>${project.build.testOutputDirectory}</cucumberArg>
+            <!-- verbose用 -の間のスペースを消すように -->
+            <!--
+              <cucumberArg>- -verbose</cucumberArg>
+              <cucumberArg>- -backtrace</cucumberArg>
+            -->
+          </cucumberArgs>
+          <gems>
+            <gem>install cuke4duke --version ${cuke4duke.version}</gem>
+          </gems>
+        </configuration>
+        <executions>
+          <execution>
+            <id>run-features</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>cucumber</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencyManagement>
@@ -89,12 +151,65 @@
         <artifactId>logback-classic</artifactId>
         <version>0.9.21</version>
       </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-all</artifactId>
+        <version>1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>cuke4duke</groupId>
+        <artifactId>cuke4duke</artifactId>
+        <version>${cuke4duke.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.picocontainer</groupId>
+        <artifactId>picocontainer</artifactId>
+        <version>2.11.2</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cuke4duke</groupId>
+      <artifactId>cuke4duke</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- 
+      Steps内で使わないとしてもpicocontainerは必要。
+      Guiceに変えることはできるけど、その場合なんらなかのモジュールは定義しないとならないのであまりうまくない
+     -->
+    <dependency>
+      <groupId>org.picocontainer</groupId>
+      <artifactId>picocontainer</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
