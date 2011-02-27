@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <!-- ステージング環境用 -->
+  <appender name="ROLLING" class="com.gluegent.log4j.DailyRollingFileAppenderEx">
+    <param name="File" value="/opt/tomcat-staging/logs/jenkins-study.log" />
+    <param name="DatePattern" value="yyyy-MM-dd" />
+    <param name="MaxBackupIndex" value="2" />
+    <param name="Append" value="true" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{HH:mm:ss,SSS}&lt;user&gt; %-5p[%t] %F(%L) %m%n" />
+    </layout>
+  </appender>
+  <logger name="cynipe" additivity="false">
+    <level value="DEBUG" />
+    <appender-ref ref="ROLLING" />
+  </logger>
+  <root>
+    <priority value="WARNING" />
+    <appender-ref ref="ROLLING" />
+  </root>
+</log4j:configuration>
