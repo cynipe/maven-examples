@@ -116,13 +116,20 @@
           </jvmArgs>
           <cucumberArgs>
             <cucumberArg>--color</cucumberArg>
+            <cucumberArg>--backtrace</cucumberArg>
+            <cucumberArg>--verbose</cucumberArg>
+            <cucumberArg>--format</cucumberArg>
+            <cucumberArg>pretty</cucumberArg>
+            <cucumberArg>--format</cucumberArg>
+            <cucumberArg>junit</cucumberArg>
+            <cucumberArg>--out</cucumberArg>
+            <cucumberArg>target/surefire-reports</cucumberArg>
+            <cucumberArg>--format</cucumberArg>
+            <cucumberArg>usage</cucumberArg>
+            <cucumberArg>--out</cucumberArg>
+            <cucumberArg>target/usage.txt</cucumberArg>
             <cucumberArg>--require</cucumberArg>
             <cucumberArg>${project.build.testOutputDirectory}</cucumberArg>
-            <!-- verbose用 -の間のスペースを消すように -->
-            <!--
-              <cucumberArg>- -verbose</cucumberArg>
-              <cucumberArg>- -backtrace</cucumberArg>
-            -->
           </cucumberArgs>
           <gems>
             <gem>install cuke4duke</gem>
